@@ -1,0 +1,15 @@
+#define kPI 3.1415926536f
+
+half4 encode (half3 n, float3 view)
+{
+	return half4((half2(atan2(n.y,n.x)/kPI, n.z)+1.0)*0.5,0,0);
+}
+
+half3 decode (half2 enc, float3 view)
+{
+	half2 ang = enc*2-1;
+	half2 scth;
+	sincos(ang.x * kPI, scth.x, scth.y);
+	half2 scphi = half2(sqrt(1.0 - ang.y*ang.y), ang.y);
+	return half3(scth.y*scphi.x, scth.x*scphi.x, scphi.y);
+}

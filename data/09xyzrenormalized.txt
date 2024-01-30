@@ -1,0 +1,9 @@
+half4 encode (half3 n, float3 view)
+{
+	return half4(n.xyz*0.5+0.5,0);
+}
+
+half3 decode (half4 enc, float3 view)
+{
+	return normalize(enc.xyz*2-1);
+}

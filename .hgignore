@@ -1,0 +1,12 @@
+syntax: glob
+
+proj/build
+*.ilk
+*.pdb
+*.ncb
+*.suo
+*.exe
+*.tga
+*.user
+*.html
+*.png

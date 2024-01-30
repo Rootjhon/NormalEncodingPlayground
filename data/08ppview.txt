@@ -1,0 +1,23 @@
+float3x3 make_view_mat (float3 view)
+{
+    view = normalize(view);
+    float3 x,y,z;
+    z = -view;
+    x = normalize (float3(z.z, 0, -z.x));
+    y = cross (z,x);
+    return float3x3 (x,y,z);
+}
+
+half4 encode (half3 n, float3 view)
+{
+	return half4(mul (make_view_mat(view), n).xy * 0.5 + 0.5,0,0);
+}
+
+half3 decode (half4 enc, float3 view)
+{
+	half3 n;
+	n.xy = enc*2-1;
+	n.z = sqrt(1+dot(n.xy,-n.xy));
+	n = mul(n, make_view_mat(view));
+	return n;
+}

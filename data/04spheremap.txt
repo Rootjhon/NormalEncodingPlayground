@@ -1,0 +1,77 @@
+half4 encode (half3 n, float3 view)
+{
+	half p = sqrt(n.z*8+8);
+	return half4(n.xy/p + 0.5,0,0);
+}
+
+half3 decode (half2 enc, float3 view)
+{
+	half2 fenc = enc*4-2;
+	half f = dot(fenc,fenc);
+	half g = sqrt(1-f/4);
+	half3 n;
+	n.xy = fenc*g;
+	n.z = 1-f/2;
+	return n;
+}
+
+/* spheremap
+half2 encode (half3 n, float3 view)
+{
+	half f = n.z*2+1;
+	half g = dot(n,n);
+	half p = sqrt(g+f);
+	return n/p * 0.5 + 0.5;
+}
+
+half3 decode (half2 enc, float3 view)
+{
+	half3 n;
+	n.xy = -enc*enc+enc;
+	n.z = -1;
+	half f = dot(n, half3(1,1,0.25));
+	half m = sqrt(f);
+	n.xy = (enc*8-4) * m;
+	n.z += 8*f;
+	return n;
+}
+*/
+
+/* Cry3
+half2 encode (half3 n, float3 view)
+{
+	half2 enc = normalize(n.xy) * (sqrt(-n.z*0.5+0.5));
+	enc = enc*0.5+0.5;
+	return enc;
+}
+
+half3 decode (half4 enc, float3 view)
+{
+	half4 nn =
+	    enc*half4(2,2,0,0) +
+	    half4(-1,-1,1,-1);
+	half l = dot(nn.xyz,-nn.xyw);
+	nn.z = l;
+	nn.xy *= sqrt(l);
+	return nn.xyz * 2 + half3(0,0,-1);
+}
+*/
+
+/* lambert
+half2 encode (half3 n, float3 view)
+{
+	half f = sqrt(8*n.z+8);
+	return n.xy / f + 0.5;
+}
+
+half3 decode (half4 enc, float3 view)
+{
+	half2 fenc = enc*4-2;
+	half f = dot(fenc,fenc);
+	half g = sqrt(1-f/4);
+	half3 n;
+	n.xy = fenc*g;
+	n.z = 1-f/2;
+	return n;
+}
+*/
